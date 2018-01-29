@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Sala do Perigo</title>
+      <script src="ImageLoader.js"    charset="utf-8"></script>
+      <script src="AudioLoader.js"    charset="utf-8"></script>
+      <script src="Scene.js"          charset="utf-8"></script>
+      <script src="Generic_Object.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <div style="align-content: center;">
+        <canvas></canvas>
+    </div>
+    <script>
+      var eCanvas = document.getElementsByTagName("canvas")[0];
+      eCanvas.width = 800;
+      eCanvas.height = 600;
+      var ctx = eCanvas.getContext("2d");
+
+      var fps = 120;
+      var atual = new Date();
+      var anterior = new Date();
+      var dt = 1/fps;
+
+      var imgLoader = new ImageLoader();
+      imgLoader.load("Background_Teste", "Recursos/Background/Background_Teste.png");
+      imgLoader.load("Bloco_Teste", "Recursos/Asset/Asset-BlocoDeTeste.png");
+
+      var audLoader;
+
+      var gameScene = new Scene();
+      gameScene.init(30,ctx);
+      gameScene.imgLoader = imgLoader;
+
+      
+  
+      drawLoop();
+
+
+      //////////////Codigo Loop//////////////////
+
+      function drawLoop(){
+        requestAnimationFrame(drawLoop);
+        atual = new Date();
+        dt = (atual - anterior)/1000;
+        ctx.clearRect(0,0,eCanvas.width, eCanvas.height)
+        ctx.strokeRect(0,0,eCanvas.width, eCanvas.height)
+        ctx.fillStyle = "darkgreen";
+        ctx.fillText("dt: " + dt + " fps:" + Math.floor(1/dt), 10, 10);
+        
+        
+        gameScene.render(ctx);
+
+
+        anterior = atual;
+      }
+
+      ///////////////Codigo de Controles///////////////////
+
+
+
+
+
+      ////////////////////////////////////////////////////
+
+    </script>
+  </body>
+</html>
