@@ -41,7 +41,17 @@ Scene.prototype.update = function(ctx,dt){
 Scene.prototype.updatePlayer = function(dt){
 	player.mover(dt);
 	for(var i = 0; i < this.hardTiles.length ; i++){
-	    player.detectaColisao(this.hardTiles[i]);
+	    if(!player.detectaColisao(this.hardTiles[i])){
+	    	if(this.hardTiles[i].code == "floor"){
+	    		player.status = "ground";
+	    		//player.y = this.hardTiles[i].y - player.height/2 - this.hardTiles[i].height/2 + 10;
+	    	}
+	    	if(this.hardTiles[i].code == "wall"){
+	    		//player.way = "block";
+	    	}
+	    }else{
+	    	player.status = "fall";
+	    }
 	}
 };
 
@@ -80,13 +90,16 @@ Scene.prototype.initHardTiles = function(quant,ctx){
 //floor
 	for(var i = 0; i < quant; i++)
 	{
-		var objectCube = new Generic_Object();
-		objectCube.x = 0 + ((objectCube.width - 8) * i);
-		objectCube.y = 550;
-		objectCube.width = 70;
-		objectCube.height = 80;
-		objectCube.type = "solid";
-		this.hardTiles.push(objectCube);
+		if(i < (quant/2 - 2) || i > (quant/2 + 2)){
+			var objectCube = new Generic_Object();
+			objectCube.x = 0 + ((objectCube.width - 8) * i);
+			objectCube.y = 550;
+			objectCube.width = 64;
+			objectCube.height = 64;
+			objectCube.type = "solid";
+			objectCube.code = "floor"
+			this.hardTiles.push(objectCube);
+		}
 	}
 	/*
 	//Walls

@@ -12,6 +12,7 @@ function Generic_Object(){
   this.vang = 0;
   this.g = 0;
   this.status = "fall"; //ground,fall,rise
+  this.code = null; //floor, wall
   this.type = null; //solid , dynamic
   this.color = "black";
   this.cooldown = 0;
@@ -56,14 +57,6 @@ Generic_Object.prototype.girar = function (dt) {
   } else {
     this.cooldown = 0;
   }
-};
-
-Generic_Object.prototype.detectaColisao = function (alvo) {
-  if(this.x + this.width/2 < alvo.x - alvo.width/2)    return true;  // colisão pela esquerda
-  if(this.x - this.width/2 > alvo.x + alvo.width/2)    return true;  // colisão pela direita
-  if(this.y + this.height/2 < alvo.y - alvo.height/2)  return true;  //  colisão por cima
-  if(this.y - this.height/2 > alvo.y + alvo.height/2)  return true;  // colisão por baixo
-  return false;
 };
 
 Generic_Object.prototype.perseguirAlvo = function (alvo, dt) {

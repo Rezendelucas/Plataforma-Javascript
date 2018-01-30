@@ -11,7 +11,7 @@ function Player_Object(){
   this.angle = 0;
   this.vang = 0;
   this.g = 0;
-  this.status = "fall"; //ground,fall,rise
+  this.status = "ground"; //ground,fall,rise
   this.way = "free" // block-Left, block-Right , free
   this.type = null; //solid , dynamic
   this.color = "black";
@@ -20,15 +20,25 @@ function Player_Object(){
 }
 
 Player_Object.prototype.render = function (ctx, img) {
+  var offset = 0;
   ctx.save();
   ctx.translate(this.x, this.y);
   ctx.fillStyle = this.color;
-  ctx.drawImage(img, -this.width/2, -this.height/2, this.width, this.height);
+  ctx.drawImage(img, -this.width/2 , -this.height/2 , this.width , this.height );
   if(this.debug){
     ctx.strokeStyle = "red";
     ctx.strokeRect(-this.width/2, -this.height/2, this.width, this.height);
   }
   ctx.restore();
+
+  ////
+ /*
+  ctx.drawImage(img, this.x + 100 , this.y , this.width, this.height );
+  if(this.debug){
+    ctx.strokeStyle = "red";
+    ctx.strokeRect(this.x + 100, this.y , this.width, this.height);
+  */
+  
 };
 
 Player_Object.prototype.mover = function (dt) {
@@ -67,11 +77,10 @@ Player_Object.prototype.girar = function (dt) {
 };
 
 Player_Object.prototype.detectaColisao = function (alvo) {
-  if(this.x + this.width/2 > alvo.x - alvo.width/2)   return false;  // colisão pela direita
-  if(this.x - this.width/2 < alvo.x + alvo.width/2)  return false;       // {this.way = "block";     return false; } // colisão pela esquerda
-  if((this.y - 10) + this.height/2 > alvo.y - alvo.height/2) {this.status = "ground"; return false; } //  colisão por baixo
-  if(this.y - this.height/2 < alvo.y + alvo.height/2)  return false;  // colisão por cima
-  this.status = "fall";
+  if((this.y + this.height) < (alvo.y)) return false; 
+  if((this.y) > (alvo.y + alvo.height)) return false;
+  if((this.x + this.width) < (alvo.x)) return false;
+  if((this.x) > (alvo.x + alvo.width)) return false;
   return true;
 
   /////(this.y-10)para fazer os pes do sprite entrarem um pouco no solo e criar efeito 
