@@ -12,7 +12,7 @@ function Player_Object(){
   this.vang = 0;
   this.g = 0;
   this.status = "fall"; //ground,fall,rise
-  this.way = "free" // block-Left, block-Right , free
+  this.way = "free" // block-left, block-fight , free
   this.type = null; //solid , dynamic
   this.color = "black";
   this.cooldown = 0;
@@ -50,8 +50,10 @@ Player_Object.prototype.mover = function (dt) {
     this.vy = 0;
     this.y = this.y + this.vy * dt;
   }else if(this.status == "fall"){// em queda
-    this.vx = this.vx + this.ax * dt;
-    this.x = this.x + this.vx * dt;
+     if(this.way == "free"){
+      this.vx = this.vx + this.ax * dt;
+      this.x = this.x + this.vx * dt;
+    }
     this.vy = this.vy + (this.ay + this.g) * dt; 
     this.y = this.y + this.vy * dt;
   }else if(this.status == "rise"){
