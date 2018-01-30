@@ -11,7 +11,7 @@ function Player_Object(){
   this.angle = 0;
   this.vang = 0;
   this.g = 0;
-  this.status = "ground"; //ground,fall,rise
+  this.status = "fall"; //ground,fall,rise
   this.way = "free" // block-Left, block-Right , free
   this.type = null; //solid , dynamic
   this.color = "black";
@@ -77,11 +77,11 @@ Player_Object.prototype.girar = function (dt) {
 };
 
 Player_Object.prototype.detectaColisao = function (alvo) {
-  if((this.y + this.height) < (alvo.y)) return false; 
-  if((this.y) > (alvo.y + alvo.height)) return false;
-  if((this.x + this.width) < (alvo.x)) return false;
-  if((this.x) > (alvo.x + alvo.width)) return false;
-  return true;
+  if((this.x - this.width/2) > (alvo.x + alvo.width/2)) return false;  // nao e colisao pela direita
+  if((this.x + this.width/2) < (alvo.x - alvo.width/2)) return false;  // nao houve colisao pela esquerda
+  if((this.y + this.height/2) < (alvo.y - alvo.height/2)) return false; // nao houve colisao por baixo
+  if((this.y - this.height/2) > (alvo.y + alvo.height/2)) return false; // nao houve colisao por cima
+  return true; // houve colisao
 
   /////(this.y-10)para fazer os pes do sprite entrarem um pouco no solo e criar efeito 
 };

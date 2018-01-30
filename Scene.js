@@ -39,19 +39,22 @@ Scene.prototype.update = function(ctx,dt){
 
 
 Scene.prototype.updatePlayer = function(dt){
+	var numberColision = 0;
 	player.mover(dt);
 	for(var i = 0; i < this.hardTiles.length ; i++){
-	    if(!player.detectaColisao(this.hardTiles[i])){
+	    if(player.detectaColisao(this.hardTiles[i])){
 	    	if(this.hardTiles[i].code == "floor"){
 	    		player.status = "ground";
+	    		numberColision++;
 	    		//player.y = this.hardTiles[i].y - player.height/2 - this.hardTiles[i].height/2 + 10;
 	    	}
 	    	if(this.hardTiles[i].code == "wall"){
 	    		//player.way = "block";
 	    	}
-	    }else{
-	    	player.status = "fall";
 	    }
+	}
+	if(numberColision == 0){
+		player.status = "fall";
 	}
 };
 
