@@ -1,5 +1,4 @@
 function Generic_Object(){
-  this.g = 0;
   this.x = 0;
   this.y = 0;
   this.vx = 0;
@@ -7,10 +6,12 @@ function Generic_Object(){
   this.ax = 0;
   this.ay = 0;
   this.am = 0;
-  this.width = 56;
-  this.height = 56;
+  this.width = 64;
+  this.height = 64;
   this.angle = 0;
   this.vang = 0;
+  this.g = 0;
+  this.status = "fall"; //ground,fall,rise
   this.type = null; //solid , dynamic
   this.color = "black";
   this.cooldown = 0;
@@ -29,7 +30,7 @@ Generic_Object.prototype.render = function (ctx, img) {
   ctx.restore();
 };
 
-Generic_Object.prototype.mover = function (dt) {
+Generic_Object.prototype.mover = function (dt,alvo) {
   this.vx = this.vx + this.ax*dt;
   this.vy = this.vy + (this.ay+this.g)*dt;
   this.x = this.x + this.vx*dt;
@@ -58,11 +59,11 @@ Generic_Object.prototype.girar = function (dt) {
 };
 
 Generic_Object.prototype.detectaColisao = function (alvo) {
-  if(this.x+this.width < alvo.x) return false;
-  if(this.x > alvo.x+this.width) return false;
-  if(this.y+this.height < alvo.y) return false;
-  if(this.y > alvo.y+this.height) return false;
-  return true;
+  if(this.x + this.width/2 < alvo.x - alvo.width/2)    return true;  // colisão pela esquerda
+  if(this.x - this.width/2 > alvo.x + alvo.width/2)    return true;  // colisão pela direita
+  if(this.y + this.height/2 < alvo.y - alvo.height/2)  return true;  //  colisão por cima
+  if(this.y - this.height/2 > alvo.y + alvo.height/2)  return true;  // colisão por baixo
+  return false;
 };
 
 Generic_Object.prototype.perseguirAlvo = function (alvo, dt) {
